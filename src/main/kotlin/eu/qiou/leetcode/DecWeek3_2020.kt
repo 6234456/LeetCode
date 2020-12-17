@@ -11,7 +11,51 @@ object DecWeek3_2020 {
             nums.map { it * it }.toIntArray()
     }
 
-    fun position(nums: IntArray, hi: Int = nums.size - 1, lo: Int = 0): Int {
+
+    /**
+     *
+     *
+     * Input:
+    A = [ 1, 2]
+    B = [-2,-1]
+    C = [-1, 2]
+    D = [ 0, 2]
+
+    Output:
+    2
+
+    Explanation:
+    The two tuples are:
+    1. (0, 0, 0, 1) -> A[0] + B[0] + C[0] + D[1] = 1 + (-2) + (-1) + 2 = 0
+    2. (1, 1, 0, 0) -> A[1] + B[1] + C[0] + D[0] = 2 + (-1) + (-1) + 0 = 0
+     *
+     *
+     */
+
+
+    fun fourSumCount(A: IntArray, B: IntArray, C: IntArray, D: IntArray): Int {
+        var res = 0
+        val m = mutableMapOf<Int, Int>()
+
+        for (a in A) {
+            for (b in B) {
+                val v = a + b
+                m[v] = m.getOrDefault(v, 0) + 1
+            }
+        }
+
+        for (c in C) {
+            for (d in D) {
+                val v = (c + d) * -1
+                res += m.getOrDefault(v, 0)
+            }
+        }
+
+        return res
+    }
+
+
+    fun position(nums: IntArray, hi: Int = nums.size - 1, lo: Int = 0, target: Int = 0): Int {
         if (hi == lo || hi - lo == 1) return hi
 
         val m = (hi + lo) / 2
@@ -19,14 +63,14 @@ object DecWeek3_2020 {
         val v1 = nums[m - 1]
 
 
-        if (v == 0) return m
+        if (v == target) return m
 
-        if (v > 0 && v1 <= 0) return m
+        if (v > target && v1 <= target) return m
 
-        if (v > 0 && v1 > 0)
-            return position(nums, m, lo)
+        if (v > target && v1 > target)
+            return position(nums, m, lo, target)
         else
-            return position(nums, hi, m)
+            return position(nums, hi, m, target)
     }
 
     fun merge(nums1: IntArray, nums2: IntArray): IntArray {

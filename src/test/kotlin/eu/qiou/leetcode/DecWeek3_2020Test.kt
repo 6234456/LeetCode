@@ -11,5 +11,15 @@ class DecWeek3_2020Test {
 
         println(DecWeek3_2020.sortedSquares(list).toList())
         //println(DecWeek3_2020.position(list,lo = 0))
+
+
+        println(
+            DecWeek3_2020.fourSumCount(
+                intArrayOf(-1, 0, 1),
+                intArrayOf(-1, 0, 1),
+                intArrayOf(0, 0, 1),
+                intArrayOf(-1, 1, 1)
+            )
+        )
     }
 }
