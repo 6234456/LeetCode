@@ -108,4 +108,83 @@ object DecWeek3_2020 {
 
         return res
     }
+
+    fun increasingTriplet0(nums: IntArray): Boolean {
+        var first = 0
+        var min = Int.MAX_VALUE
+        for (i in 0 until nums.size) {
+            if (nums[i] > min) {
+                return true
+            }
+            if (nums[i] <= nums[first]) {
+                first = i
+            } else if (nums[i] < min) {
+                min = nums[i]
+            }
+        }
+        return false
+    }
+
+
+    fun increasingTriplet(nums: IntArray, lo: Int = 0, hi: Int = nums.lastIndex): Boolean {
+        if (hi - 1 <= lo) return false
+
+        var ima = 0
+        var imi = 0
+        var ma = nums[ima]
+        var mi = nums[imi]
+
+        for (i in lo..hi) {
+            // get the position of last max
+            if (nums[i] >= ma) {
+                ma = nums[i]
+                ima = i
+            }
+
+            // get the position of first min
+            if (nums[i] < mi) {
+                mi = nums[i]
+                imi = i
+            }
+        }
+
+        if (imi < ima) {
+            for (i in imi..ima) {
+                val v = nums[i]
+                // something else in between
+                if (v != mi && v != ma) {
+                    return true
+                }
+            }
+            return hasIncreasingPair(nums, lo, imi - 1, ma) || hasIncreasingPair(nums, ima + 1, hi, mi)
+        } else {
+            // reversed
+            if (ima < imi) {
+                return hasIncreasingPair(nums, lo, ima - 1, ma)
+                        || increasingTriplet(nums, ima + 1, imi - 1)
+                        || hasIncreasingPair(nums, imi + 1, hi, mi)
+            }
+        }
+
+        return false
+    }
+
+    fun hasIncreasingPair(nums: IntArray, lo: Int = 0, hi: Int = nums.lastIndex, toAvoid: Int): Boolean {
+        if (lo >= hi) return false
+
+        var last = 0
+
+        for (i in lo..hi) {
+            val v0 = nums[i]
+
+            if (i > lo && v0 > last && v0 != toAvoid && last != toAvoid) {
+                return true
+            }
+
+            last = v0
+        }
+
+        return false
+    }
+
 }

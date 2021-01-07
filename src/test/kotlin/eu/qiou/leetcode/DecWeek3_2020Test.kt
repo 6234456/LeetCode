@@ -22,4 +22,10 @@ class DecWeek3_2020Test {
             )
         )
     }
+
+    @Test
+    fun increaseTripple() {
+        assert(DecWeek3_2020.increasingTriplet0(intArrayOf(2, 1, 0, 2, 0, 2, 0, 2, 0, 2, 0, 1)))
+        // assert(!DecWeek3_2020.increasingTriplet(intArrayOf(2,1,0,-1)))
+    }
 }
