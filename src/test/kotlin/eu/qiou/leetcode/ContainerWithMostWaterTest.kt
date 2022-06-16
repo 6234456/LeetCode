@@ -6,6 +6,6 @@ class ContainerWithMostWaterTest : TestCase() {
 
     fun testMaxArea() {
 
-        println( ContainerWithMostWater().maxArea(intArrayOf(2,3,4,5,18,17,6) ) )
+        println( ContainerWithMostWater().maxArea(intArrayOf(1,8,6,2,5,4,8,3,7) ) )
     }
 }

@@ -17,12 +17,21 @@ class ContainerWithMostWater {
 
         // change the shorter one until it exceeds the longer one
         while (right > left){
-            if (height[left] < height[right])
+            if (height[left] < height[right]){
                 left++
-            else
-                right--
+                if (height[left] > height[left-1]){
+                    maxArea = kotlin.math.max(maxArea, area(left, right))
+                }
+            }
 
-            maxArea = kotlin.math.max(maxArea, area(left, right))
+            else{
+                right--
+                if (height[right + 1] < height[right])
+                    maxArea = kotlin.math.max(maxArea, area(left, right))
+            }
+
+
+
         }
 
         return maxArea
