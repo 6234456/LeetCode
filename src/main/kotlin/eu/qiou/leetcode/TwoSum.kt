@@ -79,6 +79,67 @@ class TwoSum {
         throw java.lang.Exception("error")
     }
 
+    fun fourSum(nums: IntArray, target: Int): List<List<Int>> {
+        val len = nums.size
+        if (len < 4)
+            return listOf()
+
+        var l = 0
+        var r = nums.size - 1
+        val arr = nums.sortedArray()
+        val arr0 = arr.map { it.toLong() }
+        val ans : MutableList<List<Int>> = mutableListOf()
+        val target0 = target.toLong()
+
+        while (l < r){
+            while (l < r){
+                val tmp:Long = arr0[l] + arr0[r]
+                var l0 = l + 1
+                var r0 = r - 1
+
+                while (l0 < r0){
+                    val tmp0 = tmp + arr0[l0] + arr0[r0]
+                    if (tmp0 == target0){
+                        ans.add(listOf(arr[l], arr[l0], arr[r0], arr[r]))
+                        l0 = nextIndex(arr, l0, true)
+                        r0 = nextIndex(arr, r0, false)
+                    }else if (tmp0 > target){
+                        r0 = nextIndex(arr, r0, false)
+                    }else{
+                        l0 = nextIndex(arr, l0, true)
+                    }
+                }
+
+                l = nextIndex(arr, l, true)
+            }
+            l = 0
+            r = nextIndex(arr, r, false)
+        }
+
+        return ans
+    }
+
+    fun nextIndex(arr: IntArray, index: Int, toRight: Boolean): Int{
+        var ans = index
+        val target = arr[index]
+
+        if (toRight)
+       while (ans < arr.size) {
+           if (target < arr[ans])
+               return ans
+
+           ans++
+       }
+        else
+            while (ans > -1) {
+                if (target > arr[ans])
+                    return ans
+
+                ans--
+            }
+
+        return ans
+    }
 
     private fun binarySearch(numbers: IntArray, target: Int, low: Int = 0, high: Int = numbers.size-1):Int {
         var start = low
