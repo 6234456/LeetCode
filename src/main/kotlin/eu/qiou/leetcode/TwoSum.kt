@@ -79,6 +79,45 @@ class TwoSum {
         throw java.lang.Exception("error")
     }
 
+    fun combinationSum(candidates: IntArray, target: Int): List<List<Int>> {
+        candidates.sort()
+        return combinationSumSorted(candidates, target, 0)
+    }
+
+    fun combinationSumSorted(candidates: IntArray, target: Int, left0: Int): List<List<Int>> {
+        if (left0 >= candidates.size || candidates[left0] > target)
+            return emptyList()
+
+        val ans = mutableListOf<List<Int>>()
+        var l = left0
+
+        while (l < candidates.size){
+            val left = candidates[l]
+            var cnt = 1
+            var tmp = target - left
+
+            while (tmp >= 0){
+                if(tmp == 0){
+                    ans.addAll(listOf(List(cnt){left}))
+                    break
+                }
+                // only if a little towards your target, you will make it
+                val res = combinationSumSorted(candidates, tmp, l+1)
+
+                if (res.isNotEmpty()){
+                    ans.addAll(res.map { List(cnt){left} + it })
+                }
+
+                tmp -= left
+                cnt++
+            }
+
+            l++
+        }
+
+        return ans
+    }
+
     fun fourSum(nums: IntArray, target: Int): List<List<Int>> {
         val len = nums.size
         if (len < 4)
@@ -91,7 +130,7 @@ class TwoSum {
         val ans : MutableList<List<Int>> = mutableListOf()
         val target0 = target.toLong()
 
-        while (l < r){
+        while (0 < r){
             while (l < r){
                 val tmp:Long = arr0[l] + arr0[r]
                 var l0 = l + 1
