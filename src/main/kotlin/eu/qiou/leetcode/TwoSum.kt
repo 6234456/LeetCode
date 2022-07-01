@@ -200,4 +200,40 @@ class TwoSum {
 
         return -1
     }
+
+    // https://leetcode.com/problems/combination-sum-ii/
+
+    fun combinationSum2(candidates: IntArray, target: Int): List<List<Int>> {
+        candidates.sort()
+        return combinationSumSorted0(candidates, target, 0)
+    }
+
+    fun combinationSumSorted0(candidates: IntArray, target: Int, left0: Int): List<List<Int>> {
+        if (left0 >= candidates.size || candidates[left0] > target)
+            return emptyList()
+
+        val ans = mutableListOf<List<Int>>()
+        var l = left0
+
+        while (l < candidates.size){
+            val left = candidates[l]
+            val tmp = target - left
+
+            val nextIndex = nextIndex(candidates, l, true)
+
+            if(tmp == 0){
+                ans.addAll(listOf(listOf(left)))
+            }else{
+                val res = combinationSumSorted0(candidates, tmp, l+1)
+
+                if (res.isNotEmpty()){
+                    ans.addAll(res.map { listOf(left) + it })
+                }
+            }
+            // only if a little towards your target, you will make it
+            l = nextIndex
+        }
+
+        return ans
+    }
 }
