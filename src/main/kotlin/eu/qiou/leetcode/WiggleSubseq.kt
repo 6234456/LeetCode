@@ -33,10 +33,8 @@ class WiggleSubseq {
         var current = 1
         var cnt = 1
 
-        var total = 1
-        var allitude = 1
-        var lowest = allitude
-        var preceedingNull = true
+        if (ratings.size == 1)
+            return 1
 
         val trend =  ratings.drop(1).zip(ratings.dropLast(1)).map {
            (it.first - it.second).sign
@@ -56,52 +54,17 @@ class WiggleSubseq {
                 }
 
                 if (index == ratings.size - 2){
-                    res = acc + listOf(current to cnt)
+                    res = res + listOf(current to cnt)
                 }
                 res
         }
-            return trend.foldIndexed(1){
-           index, acc, pair ->
 
-
-            val res = acc + when(pair.first){
-                1 ->{
-                    val v = (pair.second + 1) * (allitude * 2 + pair.second) / 2 - if (!preceedingNull) allitude else 0
-                    allitude += pair.first * pair.second
-                    v
-                }
-                0 -> {
-                    val adj = kotlin.math.max(0, 1 - lowest)
-                    val tmp = (pair.second - 1) + adj * total
-                    allitude = 1
-                    lowest = 1
-                    total = 1
-                    tmp
-                }
-                -1 ->{
-                    val v =  (pair.second + 1) * (allitude * 2 - pair.second) / 2 - if (!preceedingNull) allitude else 0
-                    allitude += pair.first * pair.second
-                    lowest = kotlin.math.min(lowest, allitude)
-                    v
-                }
-                else -> throw java.lang.Error("")
-            }
-
-            preceedingNull = pair.first == 0
-
-            total += pair.second
-
-
-            if (index == trend.size - 1){
-                if (pair.first == 0)
-                    pair.second + res
-                else{
-                    val adj = kotlin.math.max(0, 1 - lowest)
-                    res + adj * total
-                }
-            }else
-            res
-
+        // the value at the peak is the longer one of the two slopes
+        return trend.foldIndexed(1) { index, acc, pair ->
+            acc +if (pair.first == 0)
+                pair.second
+            else
+               (1 + pair.second + 1) * (pair.second +1) / 2 - 1- if (index > 0 && trend[index-1].first == 1) kotlin.math.min(trend[index-1].second, pair.second) else 0
         }
     }
 }

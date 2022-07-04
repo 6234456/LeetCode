@@ -8,6 +8,6 @@ class WiggleSubseqTest {
 
     @Test
     fun candy() {
-        println(WiggleSubseq().candy(intArrayOf(1,0,2)))
+        println(WiggleSubseq().candy(intArrayOf(1,3,4,5,2)))
     }
 }
