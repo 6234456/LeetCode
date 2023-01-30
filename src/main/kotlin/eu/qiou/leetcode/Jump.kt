@@ -78,4 +78,33 @@ class Jump {
 
         return dp.last()
     }
+
+
+
+    fun canJump(nums: IntArray): Boolean {
+
+        val s = nums.size
+
+        if(s == 1)
+            return true
+
+        val a =  nums.mapIndexed{ i, e -> i + e}
+
+        var cnt = 0
+        var last = cnt
+
+        while(cnt < s){
+            val m = a.drop(last).take(cnt - last + 1).maxBy{it}!!
+
+            if(cnt >= m) return false
+
+            if(m >= s-1) return true
+
+            last = cnt
+            cnt = m
+
+        }
+
+        return true
+    }
 }

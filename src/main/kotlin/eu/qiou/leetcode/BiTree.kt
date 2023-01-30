@@ -1,5 +1,7 @@
 package eu.qiou.leetcode
 
+import java.util.*
+
 class BiTree {
 
     class TreeNode(var `val`: Int) {
@@ -47,5 +49,46 @@ class BiTree {
                     acc + ints
             }
         }
+    }
+
+
+    fun maxWidth(root: TreeNode?):Int{
+        // loop through with Queue
+        // mark currentEndNode and
+        // nextEndNode  loop through current level and find the right most child node
+        if (root == null) return 0
+        val queue: Queue<TreeNode> = LinkedList()
+        queue.add(root)
+
+        var currentLevelEnd = root
+        var nextLevelEnd:TreeNode? = null
+        var ans = 0
+        var tmp = 0
+        while (queue.isNotEmpty()){
+            val head = queue.poll()
+            tmp++
+
+            if (head.right != null){
+                nextLevelEnd = head.right
+            }else if (head.left != null){
+                nextLevelEnd = head.left
+            }
+
+            head.left?.let {
+                queue.add(it)
+            }
+            head.right?.let {
+                queue.add(it)
+            }
+
+            if (currentLevelEnd == head){
+                ans = kotlin.math.max(ans, tmp)
+                currentLevelEnd = nextLevelEnd
+                tmp = 0
+            }
+        }
+
+        return ans
+
     }
 }

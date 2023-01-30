@@ -12,6 +12,7 @@ class JumpTest : TestCase() {
     fun testRes(){
         // [0,-1,-2,-3,1]
         //2
-        Jump().maxResult(intArrayOf(0,-1,-2,-3,1), 2)
+        //Jump().maxResult(intArrayOf(0,-1,-2,-3,1), 2)
+        Jump().canJump(intArrayOf(2,0,0))
     }
 }
